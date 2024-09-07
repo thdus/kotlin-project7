@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import android.Manifest
+import android.content.Intent
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.GridLayoutManager
@@ -34,7 +35,17 @@ class MainActivity : AppCompatActivity() {
         binding.loadImageButton.setOnClickListener {
             checkPermission()
         }
+        binding.navigateframeActivityButton.setOnClickListener{
+            navigateToFrameActivity()
+        }
         initRecyclerView()
+    }
+
+    private fun navigateToFrameActivity() {
+        val images = imageAdapter.currentList.filterIsInstance<ImageItems.Image>().map { it.uri.toString() }.toTypedArray()
+        val intent = Intent(this, FrameActivity::class.java)
+            .putExtra("images",images)
+        startActivity(intent)
     }
 
     private fun initRecyclerView() {

@@ -27,5 +27,12 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginBottom="16dp"/>
 
+    <Button
+        android:id="@+id/navigateframeActivityButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="나만의 앨범 만들기"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

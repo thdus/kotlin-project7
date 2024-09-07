@@ -18,6 +18,11 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.myapplication8.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
+    private val imageLoadLauncher = registerForActivityResult(ActivityResultContracts.GetMultipleContents()){
+        uriList->
+        updateImages(uriList)
+    }
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,13 +65,33 @@ class MainActivity : AppCompatActivity() {
         }
 
         private fun loadImage() {
-            Toast.makeText(this,"이미지를 가져올 예정", Toast.LENGTH_SHORT).show()
+            imageLoadLauncher.launch("image/*")
         }
 
         private fun requestReadExternalStorage() {
             ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),REQUEST_READ_EXTERNAL_STORAGE)
 
         }
+
+        private fun updateImages(uriList: List<Uri>){
+            Log.i("updateImages","$uriList")
+        }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        when(requestCode) {
+            REQUEST_READ_EXTERNAL_STORAGE -> {
+                if(grantResults.firstOrNull() == PackageManager.PERMISSION_GRANTED){
+                    loadImage()
+                }
+            }
+        }
+    }
 
         companion object{
             const val REQUEST_READ_EXTERNAL_STORAGE = 100
